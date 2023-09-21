@@ -1,4 +1,5 @@
-﻿using DelcoRemy_API.Models;
+﻿using DelcoRemy_API.Datas;
+using DelcoRemy_API.Models;
 using DelcoRemy_API.Models.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +10,17 @@ namespace DelcoRemy_API.Controllers
     [ApiController]
     public class DelcoController : ControllerBase
     {
-        [HttpGet]
+       [HttpGet]
        public IEnumerable<reguladorDto> GetReguladors()
+       {
+            return DelcoRemyStore.reguladorsList;
+       }
+
+        [HttpGet ("id:int")]
+        public reguladorDto GetRegulador(int id)
         {
-            return new List<reguladorDto>
-            {
-                 new reguladorDto{Id=1, Name="AR123", Manufacturer="Delco Remy"},
-                 new reguladorDto{Id=2,Name="AR456", Manufacturer="Delco Remy"},
-                 new reguladorDto{Id=3,Name="AR789", Manufacturer="Delco Remy"}
-            };
-        } 
+            return DelcoRemyStore.reguladorsList.FirstOrDefault(x => x.Id == id);
+        }
+    
     }
 }
