@@ -11,16 +11,25 @@ namespace DelcoRemy_API.Controllers
     public class DelcoController : ControllerBase
     {
        [HttpGet]
-       public IEnumerable<reguladorDto> GetReguladors()
+       public ActionResult<IEnumerable<reguladorDto>> GetReguladors()
        {
-            return DelcoRemyStore.reguladorsList;
+            return Ok(DelcoRemyStore.reguladorsList);
        }
 
         [HttpGet ("id:int")]
-        public reguladorDto GetRegulador(int id)
+        public ActionResult<reguladorDto> GetRegulador(int id)
         {
-            return DelcoRemyStore.reguladorsList.FirstOrDefault(x => x.Id == id);
+            if (id == 0)
+            {
+                return BadRequest();
+            }
+            var regulador = DelcoRemyStore.reguladorsList.FirstOrDefault(x => x.Id == id);
+            if (regulador == null)
+            {
+                return NotFound();
+            }
+            return Ok(regulador);
         }
-    
+     
     }
 }
